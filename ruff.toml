@@ -1,0 +1,9 @@
+target-version = "py313"
+line-length = 120
+
+[lint]
+select = ["ALL"]
+ignore = ["D", "T201", "PLW0603", "PLR2004"]
+
+[format]
+line-ending = "lf"
