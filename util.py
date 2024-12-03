@@ -31,7 +31,8 @@ class Day(metaclass=ABCMeta):
         if len(day_str) == 1:
             day_str = "0" + day_str
         filename = "day" + day_str + ".txt"
-        self.lines = (Path(__file__).parent / "inputs" / filename).read_text().splitlines()
+        self.text = (Path(__file__).parent / "inputs" / filename).read_text()
+        self.lines = self.text.splitlines()
         self.setup_start = time()
 
     @abstractmethod
