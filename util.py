@@ -22,6 +22,7 @@ class Day(metaclass=ABCMeta):
             day: int,
             part1_expect: str | int | None,
             part2_expect: str | int | None,
+            example: bool = False,
     ) -> None:
         self.day = day
         self.part1_expect = part1_expect
@@ -30,7 +31,7 @@ class Day(metaclass=ABCMeta):
         day_str: str = str(day)
         if len(day_str) == 1:
             day_str = "0" + day_str
-        filename = "day" + day_str + ".txt"
+        filename = "day" + day_str + ".example.txt" if example else "day" + day_str + ".txt"
         self.text = (Path(__file__).parent / "inputs" / filename).read_text()
         self.lines = self.text.splitlines()
         self.setup_start = time()
