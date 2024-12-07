@@ -14,7 +14,7 @@ def time_diff_format(seconds: float) -> str:
 
 def columns(day: int | None, label: str, value: str, time_diff: float) -> None:
     day_str = "All   " if day is None else f"Day {day:2}"
-    print(f"| {day_str} | {label:10} | {value:10} | {time_diff_format(time_diff):10} |")
+    print(f"| {day_str} | {label:10} | {value:10} | {time_diff_format(time_diff):15} |")
 
 class Day(metaclass=ABCMeta):
     def __init__(
