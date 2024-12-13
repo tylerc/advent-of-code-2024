@@ -1,5 +1,6 @@
 from collections.abc import Iterator
 from dataclasses import dataclass
+from typing import Literal
 
 from util import Day
 
@@ -83,28 +84,24 @@ class Day12Base(Day):
 
         return area * perimeter
 
-    def sides_count_horizontally(self, region: Region, x_range: range, y_range: range, diff: int) -> int:
+    def sides_count(
+        self,
+        region: Region,
+        range_a: range,
+        range_b: range,
+        direction: Literal["horizontal", "vertical"],
+        diff: tuple[int, int],
+    ) -> int:
         sides = 0
+        if direction == "horizontal":
+            range_a, range_b = range_b, range_a
 
-        for y in y_range:
+        for a in range_a:
             placing = False
-            for x in x_range:
-                if self.regions.get((x, y)) != region and self.regions.get((x, y + diff)) == region:
-                    if not placing:
-                        placing = True
-                        sides += 1
-                elif placing:
-                    placing = False
-
-        return sides
-
-    def sides_count_vertically(self, region: Region, x_range: range, y_range: range, diff: int) -> int:
-        sides = 0
-
-        for x in x_range:
-            placing = False
-            for y in y_range:
-                if self.regions.get((x, y)) != region and self.regions.get((x + diff, y)) == region:
+            for b in range_b:
+                point = (b, a) if direction == "horizontal" else (a, b)
+                comparison_point = (point[0] + diff[0], point[1] + diff[1])
+                if self.regions.get(point) != region and self.regions.get(comparison_point) == region:
                     if not placing:
                         placing = True
                         sides += 1
@@ -121,10 +118,10 @@ class Day12Base(Day):
         x_range = range(top_left[0] - 1, bottom_right[0] + 2)
         y_range = range(top_left[1] - 1, bottom_right[1] + 2)
 
-        sides += self.sides_count_horizontally(region, x_range, y_range, 1)
-        sides += self.sides_count_horizontally(region, x_range, y_range, -1)
-        sides += self.sides_count_vertically(region, x_range, y_range, 1)
-        sides += self.sides_count_vertically(region, x_range, y_range, -1)
+        sides += self.sides_count(region, x_range, y_range, "horizontal", (0, 1))
+        sides += self.sides_count(region, x_range, y_range, "horizontal", (0, -1))
+        sides += self.sides_count(region, x_range, y_range, "vertical", (1, 0))
+        sides += self.sides_count(region, x_range, y_range, "vertical", (-1, 0))
 
         return area * sides
 
