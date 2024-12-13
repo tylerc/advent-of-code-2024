@@ -10,10 +10,11 @@ from day07 import Day07
 from day08 import Day08
 from day09 import Day09
 from day10 import Day10
+from day11 import Day11
 from util import columns
 
 start = time()
-days = [Day01(), Day02(), Day03(), Day04(), Day05(), Day06(), Day07(), Day08(), Day09(), Day10()]
+days = [Day01(), Day02(), Day03(), Day04(), Day05(), Day06(), Day07(), Day08(), Day09(), Day10(), Day11()]
 print("+--------+------------+-----------------+-----------------+")
 for day in days:
     day.check()
