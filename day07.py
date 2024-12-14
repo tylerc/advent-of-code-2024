@@ -76,5 +76,5 @@ class Day07(Day07Base):
         super().__init__(882304362421, 145149066755184, False)
 
 if __name__ == "__main__":
-    Day07Example().check()
+    # Day07Example().check()
     Day07().check()

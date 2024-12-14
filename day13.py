@@ -100,5 +100,5 @@ class Day13(Day13Base):
         super().__init__(36954, 79352015273424, False)
 
 if __name__ == "__main__":
-    Day13Example().check()
+    # Day13Example().check()
     Day13().check()

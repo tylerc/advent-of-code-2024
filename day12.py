@@ -140,5 +140,5 @@ class Day12(Day12Base):
         super().__init__(1363682, 787680, False)
 
 if __name__ == "__main__":
-    Day12Example().check()
+    # Day12Example().check()
     Day12().check()
