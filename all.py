@@ -14,12 +14,13 @@ from day11 import Day11
 from day12 import Day12
 from day13 import Day13
 from day14 import Day14
+from day15 import Day15
 from util import columns
 
 start = time()
 days = [
     Day01(), Day02(), Day03(), Day04(), Day05(), Day06(), Day07(), Day08(), Day09(), Day10(), Day11(), Day12(), Day13(),
-    Day14(),
+    Day14(), Day15(),
 ]
 print("+--------+------------+-----------------+-----------------+")
 for day in days:
