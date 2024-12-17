@@ -85,38 +85,26 @@ class Day16Base(Day):
         to_visit: list[tuple[tuple[int, int], tuple[int, int], int, frozenset[tuple[int, int]]]] = [
             (self.start, RIGHT, 0, frozenset([self.start])),
         ]
-        visited: dict[tuple[tuple[int, int], tuple[int, int]], int] = {}
-        end_paths: list[tuple[int, frozenset[tuple[int, int]]]] = []
+        tiles_in_end_paths: set[tuple[int, int]] = set()
 
         end_cost = self.part1()
         while len(to_visit) > 0:
             pos, facing, cost, path = to_visit.pop()
-            known_lowest_cost = self.costs[(pos, facing)]
-            if cost > known_lowest_cost:
+            if len(path - tiles_in_end_paths) == 0:
                 continue
-
-            existing_cost = visited.get((pos, facing))
-            if existing_cost and existing_cost < cost:
-                continue
-
-            visited[(pos, facing)] = cost
 
             if self.end == pos:
                 if cost == end_cost:
-                    end_paths.append((cost, path))
+                    tiles_in_end_paths.update(path)
                 continue
 
             next_pos = (pos[0] + facing[0], pos[1] + facing[1])
-            if self.grid.get(next_pos) != Entity.WALL:
+            if self.grid.get(next_pos) != Entity.WALL and self.costs[(next_pos, facing)] == cost + 1:
                 to_visit.append((next_pos, facing, cost + 1, path | frozenset([next_pos])))
 
             for turn in turns(facing):
-                to_visit.append((pos, turn, cost + 1000, path))
-
-        tiles_in_end_paths: set[tuple[int, int]] = set()
-        for (cost, path) in end_paths:
-            if cost == end_cost:
-                tiles_in_end_paths.update(path)
+                if self.costs[(pos, turn)] == cost + 1000:
+                    to_visit.append((pos, turn, cost + 1000, path))
 
         return len(tiles_in_end_paths)
 
