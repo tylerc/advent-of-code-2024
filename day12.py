@@ -11,7 +11,7 @@ class Region:
     kind: str
     points: set[tuple[int, int]]
 
-    def extents(self):
+    def extents(self) -> tuple[tuple[int, int], tuple[int, int]]:
         min_x, min_y = next(iter(self.points))
         max_x, max_y = next(iter(self.points))
         for (x, y) in self.points:
