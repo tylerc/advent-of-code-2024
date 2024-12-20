@@ -60,12 +60,21 @@ class Day18Base(Day):
         return self.find_shortest_path(occupied)
 
     def part2(self) -> str:
-        occupied: set[tuple[int, int]] = {self.bytes[i] for i in range(self.part1_steps)}
-        for i in range(self.part1_steps, len(self.bytes)):
-            next_byte = self.bytes[i]
-            occupied.add(next_byte)
-            if not self.is_connected_to_end(occupied):
-                return f"{next_byte[0]},{next_byte[1]}"
+        # Do a binary search to narrow it down quickly:
+        indexes_to_check = list(range(self.part1_steps, len(self.bytes)))
+        while len(indexes_to_check) > 2:
+            midpoint = len(indexes_to_check) // 2
+            index = indexes_to_check[midpoint]
+            occupied: set[tuple[int, int]] = {self.bytes[i] for i in range(index)}
+            is_connected = self.is_connected_to_end(occupied)
+            indexes_to_check = indexes_to_check[midpoint:] if is_connected else indexes_to_check[:midpoint + 1]
+
+        for index in indexes_to_check:
+            occupied = {self.bytes[i] for i in range(index)}
+            if self.is_connected_to_end(occupied):
+                byte = self.bytes[index]
+                return f"{byte[0]},{byte[1]}"
+
         return ""
 
 class Day18Example(Day18Base):
@@ -77,5 +86,5 @@ class Day18(Day18Base):
         super().__init__(1024, (70,70), 310, "16,46", False)
 
 if __name__ == "__main__":
-    Day18Example().check()
+    # Day18Example().check()
     Day18().check()
