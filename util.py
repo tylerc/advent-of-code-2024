@@ -12,9 +12,9 @@ def time_diff_format(seconds: float) -> str:
         return f"{delta.microseconds / 1000}ms"
     return f"{delta.microseconds}μs"
 
-def columns(day: int | None, label: str, value: str, time_diff: float) -> None:
+def columns(day: int | None, label: str, time_diff: float, value: str) -> None:
     day_str = "All   " if day is None else f"Day {day:2}"
-    print(f"| {day_str} | {label:10} | {value:19} | {time_diff_format(time_diff):15} |")
+    print(f"| {day_str} | {label:10} | {time_diff_format(time_diff):15} | {value:40} |")
 
 class Day(metaclass=ABCMeta):
     def __init__(
@@ -43,12 +43,12 @@ class Day(metaclass=ABCMeta):
 
     def check(self) -> None:
         setup_duration = time() - self.setup_start
-        columns(self.day, "Setup", "", setup_duration)
+        columns(self.day, "Setup", setup_duration, "")
 
         part1_start = time()
         part1_result = self.part1()
         part1_duration = time() - part1_start
-        columns(self.day, "Part 1", str(part1_result), part1_duration)
+        columns(self.day, "Part 1", part1_duration, str(part1_result))
         if part1_result is None:
             return
         if self.part1_expect is not None and part1_result != self.part1_expect:
@@ -58,11 +58,11 @@ class Day(metaclass=ABCMeta):
         part2_start = time()
         part2_result = self.part2()
         part2_duration = time() - part2_start
-        columns(self.day, "Part 2", str(part2_result), part2_duration)
+        columns(self.day, "Part 2", part2_duration, str(part2_result))
         if part2_result is None:
             return
         if self.part2_expect is not None and part2_result != self.part2_expect:
             msg = f"For Part 2, expected {self.part2_expect} but got {part2_result}"
             raise ValueError(msg)
 
-        columns(self.day, "Total", "", setup_duration + part1_duration + part2_duration)
+        columns(self.day, "Total", setup_duration + part1_duration + part2_duration, "")
